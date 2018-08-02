@@ -1,1 +1,2 @@
-console.log(111111111);
+import Ihuns from './core/ihuns';
+export default Ihuns;

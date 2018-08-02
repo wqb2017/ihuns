@@ -1,18 +1,32 @@
 {
   "name": "ihuns",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
-  "description": "ihuns id http request lib",
+  "description": "ihuns is http request lib",
   "private": false,
   "scripts": {
-    "dev": "rollup --config rollup.config.dev.js -w"
+    "dev": "rollup --config rollup.config.dev.js -w",
+    "build:umd": "rollup --config rollup.config.pro.js --environment FORMAT:umd",
+    "build:cjs": "rollup --config rollup.config.pro.js --environment FORMAT:cjs",
+    "build:iife": "rollup --config rollup.config.pro.js --environment FORMAT:iife"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wqb2017/ihuns.git"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"],
-  "keywords": ["ihuns", "xhr", "http", "ajax", "promise", "node"],
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
+  "keywords": [
+    "ihuns",
+    "xhr",
+    "http",
+    "ajax",
+    "promise",
+    "node"
+  ],
   "homepage": "https://github.com/wqb2017/ihuns/blob/master/README.md",
   "bugs": {
     "url": "https://github.com/wqb2017/ihuns/issues"
@@ -34,5 +48,8 @@
     "rollup-watch": "^4.3.1"
   },
   "author": "wqb2017",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "md5": "^2.2.1"
+  }
 }
