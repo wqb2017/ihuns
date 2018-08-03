@@ -12,8 +12,8 @@ export default function instanceRequestMixin(ihuns) {
       this.$options.method = 'post';
       this.$options.headers = {
         'Content-type': 'multipart/form-data'
-      }
+      };
     }
     createHttpRequest(this.$options);
-  }
+  };
 }
