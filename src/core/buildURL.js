@@ -1,4 +1,4 @@
-import transformData from './transformData';
+import transformRequest from './transformRequest';
 /**
  * request url
  *
@@ -11,7 +11,7 @@ export default function buildURL(instansConfig) {
   url += url.indexOf('?') === -1 ? '?' : '&';
   //get request
   if (instansConfig.method.toUpperCase() === 'GET') {
-    url += transformData(instansConfig);
+    url += transformRequest(instansConfig);
   }
   return url;
 }

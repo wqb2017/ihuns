@@ -68,7 +68,9 @@ export function merge(/* obj1, obj2, obj3, ... */) {
     if (typeof result[key] === 'object' && typeof val === 'object') {
       result[key] = merge(result[key], val);
     } else {
-      result[key] = val;
+      if (val !== null || typeof val !== 'undefined') {
+        result[key] = val;
+      }
     }
   }
 

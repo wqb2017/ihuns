@@ -61,7 +61,9 @@
       if (typeof result[key] === 'object' && typeof val === 'object') {
         result[key] = merge(result[key], val);
       } else {
-        result[key] = val;
+        if (val !== null || typeof val !== 'undefined') {
+          result[key] = val;
+        }
       }
     }
 
@@ -110,7 +112,8 @@
     withCredentials: false, //Add withCredentials to request if needed
     success: function() {}, //success fn
     error: function() {}, //error fn
-    requestKey: ''
+    requestKey: '',
+    isFormData: false //是否上传文件
   };
 
   /**
@@ -470,7 +473,7 @@
    * @export
    * @param {any} instansConfig
    */
-  function transformData(instansConfig) {
+  function transformRequest(instansConfig) {
     //sign value
     if (instansConfig.requestKey) {
       instansConfig.data['sign'] = md5(sign(instansConfig));
@@ -499,9 +502,27 @@
     url += url.indexOf('?') === -1 ? '?' : '&';
     //get request
     if (instansConfig.method.toUpperCase() === 'GET') {
-      url += transformData(instansConfig);
+      url += transformRequest(instansConfig);
     }
     return url;
+  }
+
+  /**
+   * request data format
+   *
+   * @export
+   * @param {any} instansConfig
+   */
+  function transformData(instansConfig) {
+    const instansConfigData = instansConfig.data;
+
+    let formData = new FormData();
+    for (var variable in instansConfigData) {
+      if (instansConfigData.hasOwnProperty(variable)) {
+        formData.append(variable, instansConfigData[variable]);
+      }
+    }
+    return formData;
   }
 
   /**
@@ -558,16 +579,38 @@
     xhr.ontimeout = function ontimeoutFns() {
       instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
     };
-
     // Send the request
     let sendData = null;
     if (instansConfig.method.toUpperCase() !== 'GET') {
-      sendData = transformData(instansConfig);
+      sendData = transformRequest(instansConfig);
+      //send form-data
+      if (instansConfig.isFormData) {
+        sendData = transformData(instansConfig);
+      }
       xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
     }
     xhr.send(sendData);
   }
 
+  /**
+   * instanceRequestMixin fn
+   *
+   * @export
+   * @param {any} ihuns
+   */
+  function instanceRequestMixin(ihuns) {
+    ihuns.prototype.instanceRequest = function instanceRequest(params) {
+      if (this.$options.isFormData) {
+        this.$options.method = 'post';
+        this.$options.headers = {
+          'Content-type': 'multipart/form-data'
+        };
+      }
+      createHttpRequest(this.$options);
+    };
+  }
+
+  let id = 0;
   /**
    * ihuns
    *
@@ -579,8 +622,11 @@
       logError('Ihuns is a constructor and should be called with the `new` keyword');
       return;
     }
-    createHttpRequest(merge(defaultConfig, options));
+    this.$id = id++;
+    this.$options = merge(defaultConfig, options);
+    this.instanceRequest();
   }
+  instanceRequestMixin(Ihuns);
 
   return Ihuns;
 

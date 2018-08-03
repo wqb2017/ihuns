@@ -1,5 +1,6 @@
 import buildURL from './buildURL';
 import transformData from './transformData';
+import transformRequest from './transformRequest';
 import transformResponse from './transformResponse';
 /**
  * request
@@ -39,11 +40,14 @@ export default function createHttpRequest(instansConfig) {
   xhr.ontimeout = function ontimeoutFns() {
     instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
   };
-
   // Send the request
   let sendData = null;
   if (instansConfig.method.toUpperCase() !== 'GET') {
-    sendData = transformData(instansConfig);
+    sendData = transformRequest(instansConfig);
+    //send form-data
+    if (instansConfig.isFormData) {
+      sendData = transformData(instansConfig);
+    }
     xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
   }
   xhr.send(sendData);

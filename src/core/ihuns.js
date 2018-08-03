@@ -1,6 +1,7 @@
 import * as Utils from './utils';
 import defaultConfig from './config';
-import createHttpRequest from './createHttpRequest';
+import instanceRequestMixin from './instanceRequest';
+let id = 0;
 /**
  * ihuns
  *
@@ -12,5 +13,8 @@ export default function Ihuns(options) {
     Utils.logError('Ihuns is a constructor and should be called with the `new` keyword');
     return;
   }
-  createHttpRequest(Utils.merge(defaultConfig, options));
+  this.$id = id++;
+  this.$options = Utils.merge(defaultConfig, options);
+  this.instanceRequest();
 }
+instanceRequestMixin(Ihuns);

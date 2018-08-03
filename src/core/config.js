@@ -11,5 +11,6 @@ export default {
   withCredentials: false, //Add withCredentials to request if needed
   success: function() {}, //success fn
   error: function() {}, //error fn
-  requestKey: ''
+  requestKey: '',
+  isFormData: false //是否上传文件
 };
