@@ -11,6 +11,12 @@ Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | Latest ✔ | 9+ ✔ |
 
 npm install ihuns --save
 
+or
+
+```html
+<script src="ihuns.js"></script>
+```
+
 ## import
 
 import ihuns from 'sendjs';

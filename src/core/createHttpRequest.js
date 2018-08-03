@@ -39,6 +39,7 @@ export default function createHttpRequest(instansConfig) {
   xhr.ontimeout = function ontimeoutFns() {
     instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
   };
+
   // Send the request
   let sendData = null;
   if (instansConfig.method.toUpperCase() !== 'GET') {
