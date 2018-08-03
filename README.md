@@ -37,6 +37,35 @@ new Ihuns({
 });
 ```
 
+## use promise
+```js
+function createIhuns(url = '', data = {}, config = {}) {
+  return new Promise(function(resolve, reject) {
+    new Ihuns({
+      url: url, //请求服务器url
+      baseURL: 'http://192.168.9.86:8006', //服务器路径
+      data: data,
+      success: function success(res) {
+        resolve(res);
+      },
+      error: function error(err) {
+        reject(err);
+      }
+    });
+  });
+}
+createIhuns('/partner/data', {
+  module: 'portal',
+  service: 'Portal',
+  method: 'access',
+  status: '',
+  name: '',
+  action: 'marketing.MaInfo.getMaInfoList'
+}).then(res => {
+  console.log(res);
+});
+```
+
 ## Config
 
 ```js
