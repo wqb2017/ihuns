@@ -25,8 +25,8 @@ import ihuns from 'sendjs';
 
 ```js
 new Ihuns({
-  url: '/api', //请求服务器url
-  baseURL: 'http://192.168.9.86:8006', //服务器路径
+  url: '/api',
+  baseURL: 'http://192.168.9.86:8006',
   data: {},
   success: function success(res) {
     resolve(res);
@@ -42,8 +42,8 @@ new Ihuns({
 function createIhuns(url = '', data = {}) {
   return new Promise(function(resolve, reject) {
     new Ihuns({
-      url: url, //请求服务器url
-      baseURL: 'http://192.168.9.86:8006', //服务器路径
+      url: url,
+      baseURL: 'http://192.168.9.86:8006',
       data: data,
       success: function success(res) {
         resolve(res);
@@ -83,6 +83,7 @@ createIhuns('/partner/data', {
   withCredentials: false, //Add withCredentials to request if needed
   success: function() {}, //success fn
   error: function() {}, //error fn
+  isFormData: false //file unload
 ```
 
 ## License
