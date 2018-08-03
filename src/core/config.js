@@ -12,5 +12,5 @@ export default {
   success: function() {}, //success fn
   error: function() {}, //error fn
   requestKey: '',
-  isFormData: false //是否上传文件
+  isFormData: false //file unload
 };

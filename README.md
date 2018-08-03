@@ -86,6 +86,17 @@ createIhuns('/partner/data', {
   isFormData: false //file unload
 ```
 
+## response
+
+```js
+  let res = {
+    response: {},//res
+    status: 200,//status
+    readyState: 4,//readyState
+    config: {},//request config
+  }
+```
+
 ## License
 
 MIT
