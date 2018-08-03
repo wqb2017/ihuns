@@ -39,7 +39,7 @@ new Ihuns({
 
 ## use promise
 ```js
-function createIhuns(url = '', data = {}, config = {}) {
+function createIhuns(url = '', data = {}) {
   return new Promise(function(resolve, reject) {
     new Ihuns({
       url: url, //请求服务器url
@@ -63,7 +63,9 @@ createIhuns('/partner/data', {
   action: 'marketing.MaInfo.getMaInfoList'
 }).then(res => {
   console.log(res);
-});
+}).catch(err=>{
+  console.log(err);
+})
 ```
 
 ## Config

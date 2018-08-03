@@ -1,4 +1,3 @@
-import packageConfig from './package.json';
 import babel from 'rollup-plugin-babel';
 import { uglify } from 'rollup-plugin-uglify';
 import resolve from 'rollup-plugin-node-resolve';
@@ -8,9 +7,9 @@ const FORMAT = process.env.FORMAT;
 export default {
   input: './src/index.js',
   output: {
-    file: `dist/${packageConfig.name}.min.js`,
+    file: `dist/ihuns.min.js`,
     format: `${FORMAT}`,
-    name: `${packageConfig.name}`
+    name: `Ihuns`
   },
   plugins: [
     resolve({
