@@ -88,14 +88,16 @@ createIhuns('/partner/data', {
 ```
 
 ## response
-
 ```js
+//success
   let res = {
     response: {},//res
     status: 200,//status
     readyState: 4,//readyState
     config: {},//request config
   }
+//error
+let err = (msg,xhr,config)
 ```
 
 ## License
