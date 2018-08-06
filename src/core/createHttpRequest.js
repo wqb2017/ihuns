@@ -29,13 +29,8 @@ export default function createHttpRequest(instansConfig) {
     xhr.timeout = instansConfig.timeout;
   }
 
-  //handle onload
-  xhr.onload = function onloadFns() {
-    renderSuccessFns(xhr, instansConfig);
-  }
-
   //handle onprogress
-  xhr.onprogress = function onprogressFns(event) {
+  xhr.upload.onprogress = function onprogressFns(event) {
     instansConfig.onprogress(event);
   };
 
