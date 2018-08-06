@@ -19,14 +19,18 @@ function createIhuns(url = '', data = {}, config = {}) {
       isFormData: ihunsJson.isFormData || false,
       method: ihunsJson.methos || 'get',
       withCredentials: ihunsJson.withCredentials || false,
+      // timeout:5000,
       success: function success(res) {
         resolve(res);
       },
-      error: function error(err) {
-        reject(err);
+      error: function error(msg,xhr,config) {
+        reject(msg,xhr,config);
       },
-      ontimeout:function ontimeout(msg,xhr){
-        console.log(msg);
+      onprogress:function onprogress(event) {
+        console.log(event);
+      },
+      ontimeout:function ontimeout(msg,xhr,config){
+        reject(msg,xhr,config);
       }
     });
   });
@@ -52,7 +56,7 @@ function getMaInfoList() {
     document.getElementById('data').innerHTML = JSON.stringify(res);
   });
 }
-getMaInfoList();
+// getMaInfoList();
 /**
  * getConsumeBillList
  *
@@ -75,12 +79,12 @@ function getConsumeBillList() {
     console.log(res);
   });
 }
-// getConsumeBillList();
+getConsumeBillList();
 //文件上传
 function uploadFormData(params) {
   createIhuns('/common/uploadFormData', params, {
     methos: 'post',
-    baseURL: 'http://120.78.128.52:81/cleaning',
+    baseURL: 'http://120.78.128.52:82/cleaning',
     isFormData: true,
     withCredentials: true
   }).then(res => {

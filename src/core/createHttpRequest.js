@@ -21,6 +21,11 @@ export default function createHttpRequest(instansConfig) {
     xhr.withCredentials = true;
   }
 
+  //handle onprogress
+  xhr.onprogress = function onprogressFns(event) {
+    instansConfig.onprogress(event);
+  }
+
   //start send request
   xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
 

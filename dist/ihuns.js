@@ -142,9 +142,10 @@
     timeout: null, //set timeout
     async: true, //async
     withCredentials: false, //Add withCredentials to request if needed
-    success: function() {}, //success fn
-    error: function() {}, //error fn
+    success: function() {}, //Handle success
+    error: function() {}, //Handle error
     ontimeout:function () {},//Handle timeout
+    onprogress:function () {},//Handle onprogress
     requestKey: '',
     isFormData: false //file unload
   };
@@ -667,6 +668,11 @@
     if (instansConfig.withCredentials) {
       xhr.withCredentials = true;
     }
+
+    //handle onprogress
+    xhr.onprogress = function onprogressFns(event) {
+      instansConfig.onprogress(event);
+    };
 
     //start send request
     xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
