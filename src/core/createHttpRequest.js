@@ -1,7 +1,8 @@
 import buildURL from './buildURL';
-import transformResponse from './transformResponse';
 import renderXhr from './xhr';
 import renderSendFns from './send';
+import renderSuccessFns from './success';
+import renderErrorFns from './error';
 /**
  * request
  * 1. create http
@@ -18,6 +19,8 @@ export default function createHttpRequest(instansConfig) {
   if (instansConfig.withCredentials) {
     xhr.withCredentials = true;
   }
+
+  //start send request
   xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
 
   //Set the request timeout in MS
@@ -27,19 +30,17 @@ export default function createHttpRequest(instansConfig) {
 
   //Listen for ready state
   xhr.onreadystatechange = function onreadystatechangeFns() {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-      instansConfig.success(transformResponse(xhr, instansConfig));
-    }
+    renderSuccessFns(xhr, instansConfig);
   };
 
   //Handle low level network errors
   xhr.onerror = function onerrorFns() {
-    instansConfig.error('Network Error', transformResponse(xhr, instansConfig));
+    renderErrorFns('Network Error', xhr, instansConfig);
   };
 
   //Handle timeout
   xhr.ontimeout = function ontimeoutFns() {
-    instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
+    renderErrorFns('timeout Error', xhr, instansConfig);
   };
 
   //set header

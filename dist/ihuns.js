@@ -531,22 +531,6 @@
   }
 
   /**
-   * response data format
-   *
-   * @export
-   * @param {any} xhr
-   * @returns
-   */
-  function transformResponse(responseData, instansConfig) {
-    return {
-      response: JSON.parse(responseData.response || responseData.responseText),
-      status: responseData.status,
-      readyState: responseData.readyState,
-      config: instansConfig
-    };
-  }
-
-  /**
    * new XMLHttpRequest()
    *
    * @export
@@ -599,6 +583,52 @@
   }
 
   /**
+   * response data format
+   *
+   * @export
+   * @param {any} xhr
+   * @returns
+   */
+  function transformResponse(responseData, instansConfig) {
+    return {
+      response: JSON.parse(responseData.response || responseData.responseText),
+      status: responseData.status,
+      readyState: responseData.readyState,
+      config: instansConfig
+    };
+  }
+
+  /**
+   * error fns
+   *
+   * @export
+   * @param {any} msg
+   * @param {any} xhr
+   * @param {any} instansConfig
+   */
+  function renderErrorFns(msg, xhr, instansConfig) {
+    logError(`request was unsuccessful:${xhr.status}`);
+    instansConfig.error(msg, transformResponse(xhr, instansConfig));
+  }
+
+  /**
+   * success fns
+   *
+   * @export
+   * @param {any} xhr
+   * @param {any} instansConfig
+   */
+  function renderSuccessFns(xhr, instansConfig) {
+    if (xhr.readyState === 4) {
+      if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+        instansConfig.success(transformResponse(xhr, instansConfig));
+      } else {
+        renderErrorFns('request was unsuccessful!', xhr, instansConfig);
+      }
+    }
+  }
+
+  /**
    * request
    * 1. create http
    * 2. open http
@@ -614,6 +644,8 @@
     if (instansConfig.withCredentials) {
       xhr.withCredentials = true;
     }
+
+    //start send request
     xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
 
     //Set the request timeout in MS
@@ -623,19 +655,17 @@
 
     //Listen for ready state
     xhr.onreadystatechange = function onreadystatechangeFns() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        instansConfig.success(transformResponse(xhr, instansConfig));
-      }
+      renderSuccessFns(xhr, instansConfig);
     };
 
     //Handle low level network errors
     xhr.onerror = function onerrorFns() {
-      instansConfig.error('Network Error', transformResponse(xhr, instansConfig));
+      renderErrorFns('Network Error', xhr, instansConfig);
     };
 
     //Handle timeout
     xhr.ontimeout = function ontimeoutFns() {
-      instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
+      renderErrorFns('timeout Error', xhr, instansConfig);
     };
 
     //set header
