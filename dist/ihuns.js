@@ -531,24 +531,6 @@
   }
 
   /**
-   * request data format
-   *
-   * @export
-   * @param {any} instansConfig
-   */
-  function transformData(instansConfig) {
-    const instansConfigData = instansConfig.data;
-
-    let formData = new FormData();
-    for (var variable in instansConfigData) {
-      if (instansConfigData.hasOwnProperty(variable)) {
-        formData.append(variable, instansConfigData[variable]);
-      }
-    }
-    return formData;
-  }
-
-  /**
    * response data format
    *
    * @export
@@ -581,6 +563,42 @@
   }
 
   /**
+   * request data format
+   *
+   * @export
+   * @param {any} instansConfig
+   */
+  function transformData(instansConfig) {
+    const instansConfigData = instansConfig.data;
+
+    let formData = new FormData();
+    for (var variable in instansConfigData) {
+      if (instansConfigData.hasOwnProperty(variable)) {
+        formData.append(variable, instansConfigData[variable]);
+      }
+    }
+    return formData;
+  }
+
+  /**
+   * send data
+   *
+   * @export
+   * @param {any} instansConfig
+   */
+  function renderSendFns(instansConfig) {
+    let sendData = null;
+    if (instansConfig.method.toUpperCase() !== 'GET') {
+      sendData = transformRequest(instansConfig);
+      //send form-data
+      if (instansConfig.isFormData) {
+        sendData = transformData(instansConfig);
+      }
+    }
+    return sendData;
+  }
+
+  /**
    * request
    * 1. create http
    * 2. open http
@@ -589,6 +607,7 @@
    * 5. watch http
    */
   function createHttpRequest(instansConfig) {
+    //create http
     const xhr = renderXhr();
 
     //Add withCredentials to request if needed
@@ -597,38 +616,33 @@
     }
     xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
 
-    // Set the request timeout in MS
+    //Set the request timeout in MS
     if (instansConfig.timeout) {
       xhr.timeout = instansConfig.timeout;
     }
 
-    // Listen for ready state
+    //Listen for ready state
     xhr.onreadystatechange = function onreadystatechangeFns() {
       if (xhr.readyState === 4 && xhr.status === 200) {
         instansConfig.success(transformResponse(xhr, instansConfig));
       }
     };
 
-    // Handle low level network errors
+    //Handle low level network errors
     xhr.onerror = function onerrorFns() {
       instansConfig.error('Network Error', transformResponse(xhr, instansConfig));
     };
 
-    // Handle timeout
+    //Handle timeout
     xhr.ontimeout = function ontimeoutFns() {
       instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
     };
-    // Send the request
-    let sendData = null;
-    if (instansConfig.method.toUpperCase() !== 'GET') {
-      sendData = transformRequest(instansConfig);
-      //send form-data
-      if (instansConfig.isFormData) {
-        sendData = transformData(instansConfig);
-      }
-      xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
-    }
-    xhr.send(sendData);
+
+    //set header
+    xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
+
+    //send data
+    xhr.send(renderSendFns(instansConfig));
   }
 
   /**

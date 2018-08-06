@@ -1,8 +1,7 @@
 import buildURL from './buildURL';
-import transformData from './transformData';
-import transformRequest from './transformRequest';
 import transformResponse from './transformResponse';
 import renderXhr from './xhr';
+import renderSendFns from './send';
 /**
  * request
  * 1. create http
@@ -12,6 +11,7 @@ import renderXhr from './xhr';
  * 5. watch http
  */
 export default function createHttpRequest(instansConfig) {
+  //create http
   const xhr = renderXhr();
 
   //Add withCredentials to request if needed
@@ -20,36 +20,31 @@ export default function createHttpRequest(instansConfig) {
   }
   xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
 
-  // Set the request timeout in MS
+  //Set the request timeout in MS
   if (instansConfig.timeout) {
     xhr.timeout = instansConfig.timeout;
   }
 
-  // Listen for ready state
+  //Listen for ready state
   xhr.onreadystatechange = function onreadystatechangeFns() {
     if (xhr.readyState === 4 && xhr.status === 200) {
       instansConfig.success(transformResponse(xhr, instansConfig));
     }
   };
 
-  // Handle low level network errors
+  //Handle low level network errors
   xhr.onerror = function onerrorFns() {
     instansConfig.error('Network Error', transformResponse(xhr, instansConfig));
   };
 
-  // Handle timeout
+  //Handle timeout
   xhr.ontimeout = function ontimeoutFns() {
     instansConfig.error('timeout Error', transformResponse(xhr, instansConfig));
   };
-  // Send the request
-  let sendData = null;
-  if (instansConfig.method.toUpperCase() !== 'GET') {
-    sendData = transformRequest(instansConfig);
-    //send form-data
-    if (instansConfig.isFormData) {
-      sendData = transformData(instansConfig);
-    }
-    xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
-  }
-  xhr.send(sendData);
+
+  //set header
+  xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
+
+  //send data
+  xhr.send(renderSendFns(instansConfig));
 }
