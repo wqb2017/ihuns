@@ -98,6 +98,24 @@
       .replace(/%5B/gi, '[')
       .replace(/%5D/gi, ']');
   }
+  /**
+   * json parse string serialization formatted as a string and linked with &
+   *
+   * @export
+   * @param {object} jsonData
+   * @param {string} format default '&'
+   * @returns
+   */
+  function jsonParseString(jsonData = {}, format = '&') {
+    let arrData = [];
+    for (var variable in jsonData) {
+      if (jsonData.hasOwnProperty(variable)) {
+        //encodeURIComponent
+        arrData.push(`${encodeValue(variable)}=${encodeValue(jsonData[variable])}`);
+      }
+    }
+    return arrData.join(format);
+  }
 
   var defaultConfig = {
     url: '', //request server url
@@ -478,16 +496,7 @@
     if (instansConfig.requestKey) {
       instansConfig.data['sign'] = md5(sign(instansConfig));
     }
-    //Is formatted as a string and linked with &
-    let requestData = [];
-    const instansConfigData = instansConfig.data;
-    for (var variable in instansConfigData) {
-      if (instansConfigData.hasOwnProperty(variable)) {
-        //encodeURIComponent
-        requestData.push(`${encodeValue(variable)}=${encodeValue(instansConfigData[variable])}`);
-      }
-    }
-    return requestData.join('&');
+    return jsonParseString(instansConfig.data, '&');
   }
 
   /**

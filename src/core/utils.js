@@ -114,3 +114,21 @@ export function encodeValue(val) {
     .replace(/%5B/gi, '[')
     .replace(/%5D/gi, ']');
 }
+/**
+ * json parse string serialization formatted as a string and linked with &
+ *
+ * @export
+ * @param {object} jsonData
+ * @param {string} format default '&'
+ * @returns
+ */
+export function jsonParseString(jsonData = {}, format = '&') {
+  let arrData = [];
+  for (var variable in jsonData) {
+    if (jsonData.hasOwnProperty(variable)) {
+      //encodeURIComponent
+      arrData.push(`${encodeValue(variable)}=${encodeValue(jsonData[variable])}`);
+    }
+  }
+  return arrData.join(format);
+}
