@@ -16,6 +16,20 @@
     return toString.call(val) === '[object Array]';
   }
   /**
+   * Don't bother if no value provided
+   *
+   * @export
+   * @param {any} value
+   * @returns
+   */
+  function isNullOrUndefined(value) {
+    if (value === null || typeof value === 'undefined') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  /**
    * forEach
    *
    * @export
@@ -551,6 +565,22 @@
   }
 
   /**
+   * new XMLHttpRequest()
+   *
+   * @export
+   * @param {any} params
+   * @returns
+   */
+  function renderXhr(params) {
+    //ie7+ firefox opera chrome
+    if (!isNullOrUndefined(typeof XMLHttpRequest)) {
+      return new XMLHttpRequest();
+    } else {
+      logError('no XHR object availabel!');
+    }
+  }
+
+  /**
    * request
    * 1. create http
    * 2. open http
@@ -559,7 +589,7 @@
    * 5. watch http
    */
   function createHttpRequest(instansConfig) {
-    const xhr = new XMLHttpRequest();
+    const xhr = renderXhr();
 
     //Add withCredentials to request if needed
     if (instansConfig.withCredentials) {

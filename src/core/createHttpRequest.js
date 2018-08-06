@@ -2,6 +2,7 @@ import buildURL from './buildURL';
 import transformData from './transformData';
 import transformRequest from './transformRequest';
 import transformResponse from './transformResponse';
+import renderXhr from './xhr';
 /**
  * request
  * 1. create http
@@ -11,7 +12,7 @@ import transformResponse from './transformResponse';
  * 5. watch http
  */
 export default function createHttpRequest(instansConfig) {
-  const xhr = new XMLHttpRequest();
+  const xhr = renderXhr();
 
   //Add withCredentials to request if needed
   if (instansConfig.withCredentials) {

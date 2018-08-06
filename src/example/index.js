@@ -33,30 +33,44 @@ function createIhuns(url = '', data = {}, config = {}) {
     });
   });
 }
-createIhuns(
-  '/partner/data',
-  {
-    status: '',
-    name: '',
-    action: 'marketing.MaInfo.getMaInfoList'
-  },
-  { methos: 'post' }
-).then(res => {
-  document.getElementById('data').innerHTML = JSON.stringify(res);
-});
-createIhuns(
-  '/partner/data',
-  {
-    channel_id: '',
-    start_date: '',
-    end_date: '',
-    status: '',
-    action: 'finance.Bill.getConsumeBillList'
-  }
-  // { methos: 'post' }
-).then(res => {
-  console.log(res);
-});
+/**
+ * getMaInfoList
+ *
+ * @param {any} params
+ */
+function getMaInfoList(params) {
+  createIhuns(
+    '/partner/data',
+    {
+      status: '',
+      name: '',
+      action: 'marketing.MaInfo.getMaInfoList'
+    },
+    { methos: 'post' }
+  ).then(res => {
+    document.getElementById('data').innerHTML = JSON.stringify(res);
+  });
+}
+getMaInfoList();
+/**
+ * getConsumeBillList
+ *
+ * @param {any} params
+ */
+function getConsumeBillList(params) {
+  createIhuns(
+    '/partner/data',
+    {
+      channel_id: '',
+      start_date: '',
+      end_date: '',
+      status: '',
+      action: 'finance.Bill.getConsumeBillList'
+    }
+  ).then(res => {
+    console.log(res);
+  });
+}
 //文件上传
 function uploadFormData(params) {
   createIhuns('/common/uploadFormData', params, {
