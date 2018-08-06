@@ -8,11 +8,6 @@
 function createIhuns(url = '', data = {}, config = {}) {
   const dataJson = Object.assign(
     {},
-    {
-      module: 'portal',
-      service: 'Portal',
-      method: 'access'
-    },
     data
   );
   const ihunsJson = Object.assign({},config,{url:url,data:Object.assign({},dataJson,data)})
@@ -29,6 +24,9 @@ function createIhuns(url = '', data = {}, config = {}) {
       },
       error: function error(err) {
         reject(err);
+      },
+      ontimeout:function ontimeout(msg,xhr){
+        console.log(msg);
       }
     });
   });
@@ -38,10 +36,13 @@ function createIhuns(url = '', data = {}, config = {}) {
  *
  * @param {any} params
  */
-function getMaInfoList(params) {
+function getMaInfoList() {
   createIhuns(
     '/partner/data',
     {
+      module: 'portal',
+      service: 'Portal',
+      method: 'access',
       status: '',
       name: '',
       action: 'marketing.MaInfo.getMaInfoList'
@@ -57,10 +58,13 @@ getMaInfoList();
  *
  * @param {any} params
  */
-function getConsumeBillList(params) {
+function getConsumeBillList() {
   createIhuns(
     '/partner/data',
     {
+      module: 'portal',
+      service: 'Portal',
+      method: 'access',
       channel_id: '',
       start_date: '',
       end_date: '',
@@ -71,6 +75,7 @@ function getConsumeBillList(params) {
     console.log(res);
   });
 }
+// getConsumeBillList();
 //文件上传
 function uploadFormData(params) {
   createIhuns('/common/uploadFormData', params, {

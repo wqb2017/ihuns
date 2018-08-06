@@ -36,12 +36,15 @@ export default function createHttpRequest(instansConfig) {
 
   //Handle low level network errors
   xhr.onerror = function onerrorFns() {
-    renderErrorFns('Network Error', xhr, instansConfig);
+    renderErrorFns(`Network Error,status is${xhr.status}`, xhr, instansConfig);
   };
 
   //Handle timeout
+  if (instansConfig.timeout) {
+    xhr.timeout = instansConfig.timeout;
+  }
   xhr.ontimeout = function ontimeoutFns() {
-    renderErrorFns('timeout Error', xhr, instansConfig);
+    renderErrorFns(`timeout Error,status is ${xhr.status}`, xhr, instansConfig);
   };
 
   //set header

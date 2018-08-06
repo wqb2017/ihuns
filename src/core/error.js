@@ -9,6 +9,8 @@ import * as Utils from './utils';
  * @param {any} instansConfig
  */
 export default function renderErrorFns(msg, xhr, instansConfig) {
-  Utils.logError(`request was unsuccessful:${xhr.status}`);
-  instansConfig.error(msg, transformResponse(xhr, instansConfig));
+  if (instansConfig.timeout) {
+    instansConfig.ontimeout('timeout Error', xhr, instansConfig);
+  }
+  instansConfig.error(msg, xhr, instansConfig);
 }

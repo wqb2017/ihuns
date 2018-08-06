@@ -144,6 +144,7 @@
     withCredentials: false, //Add withCredentials to request if needed
     success: function() {}, //success fn
     error: function() {}, //error fn
+    ontimeout:function () {},//Handle timeout
     requestKey: '',
     isFormData: false //file unload
   };
@@ -554,7 +555,6 @@
    */
   function transformData(instansConfig) {
     const instansConfigData = instansConfig.data;
-
     let formData = new FormData();
     for (var variable in instansConfigData) {
       if (instansConfigData.hasOwnProperty(variable)) {
@@ -607,8 +607,10 @@
    * @param {any} instansConfig
    */
   function renderErrorFns(msg, xhr, instansConfig) {
-    logError(`request was unsuccessful:${xhr.status}`);
-    instansConfig.error(msg, transformResponse(xhr, instansConfig));
+    if (instansConfig.timeout) {
+      instansConfig.ontimeout('timeout Error', xhr, instansConfig);
+    }
+    instansConfig.error(msg, xhr, instansConfig);
   }
 
   /**
@@ -620,10 +622,16 @@
    */
   function renderSuccessFns(xhr, instansConfig) {
     if (xhr.readyState === 4) {
-      if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
-        instansConfig.success(transformResponse(xhr, instansConfig));
-      } else {
-        renderErrorFns('request was unsuccessful!', xhr, instansConfig);
+      try {
+        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+          instansConfig.success(transformResponse(xhr, instansConfig));
+        } else {
+          if (!instansConfig.timeout) {
+            renderErrorFns(`request was unsuccessful,status is ${xhr.status}`, xhr, instansConfig);
+          }
+        }
+      } catch (error) {
+        renderErrorFns(error, xhr, instansConfig);
       }
     }
   }
@@ -675,12 +683,15 @@
 
     //Handle low level network errors
     xhr.onerror = function onerrorFns() {
-      renderErrorFns('Network Error', xhr, instansConfig);
+      renderErrorFns(`Network Error,status is${xhr.status}`, xhr, instansConfig);
     };
 
     //Handle timeout
+    if (instansConfig.timeout) {
+      xhr.timeout = instansConfig.timeout;
+    }
     xhr.ontimeout = function ontimeoutFns() {
-      renderErrorFns('timeout Error', xhr, instansConfig);
+      renderErrorFns(`timeout Error,status is ${xhr.status}`, xhr, instansConfig);
     };
 
     //set header

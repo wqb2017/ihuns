@@ -11,6 +11,7 @@ export default {
   withCredentials: false, //Add withCredentials to request if needed
   success: function() {}, //success fn
   error: function() {}, //error fn
+  ontimeout:function () {},//Handle timeout
   requestKey: '',
   isFormData: false //file unload
 };

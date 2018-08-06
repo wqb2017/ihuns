@@ -83,6 +83,7 @@ createIhuns('/partner/data', {
   withCredentials: false, //Add withCredentials to request if needed
   success: function() {}, //success fn
   error: function() {}, //error fn
+  ontimeout: function() {}, //Handle timeout
   isFormData: false //file unload
 ```
 

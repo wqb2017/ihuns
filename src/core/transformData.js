@@ -6,7 +6,6 @@
  */
 export default function transformData(instansConfig) {
   const instansConfigData = instansConfig.data;
-
   let formData = new FormData();
   for (var variable in instansConfigData) {
     if (instansConfigData.hasOwnProperty(variable)) {
