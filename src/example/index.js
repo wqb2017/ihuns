@@ -27,7 +27,7 @@ function createIhuns(url = '', data = {}, config = {}) {
         reject(msg,xhr,config);
       },
       onprogress:function onprogress(event) {
-        console.log(event);
+        // console.log(event);
       },
       ontimeout:function ontimeout(msg,xhr,config){
         reject(msg,xhr,config);
@@ -88,8 +88,10 @@ function uploadFormData(params) {
     isFormData: true,
     withCredentials: true
   }).then(res => {
-    // console.log(res);
-  });
+    console.log(res);
+  }).catch(err=>{
+    console.log(err);
+  })
 }
 document.getElementById('file').addEventListener('change', function clickFns(e) {
   let files = e.target.files[0];

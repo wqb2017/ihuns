@@ -669,11 +669,6 @@
       xhr.withCredentials = true;
     }
 
-    //handle onprogress
-    xhr.onprogress = function onprogressFns(event) {
-      instansConfig.onprogress(event);
-    };
-
     //start send request
     xhr.open(instansConfig.method.toUpperCase(), buildURL(instansConfig), instansConfig.async);
 
@@ -681,6 +676,16 @@
     if (instansConfig.timeout) {
       xhr.timeout = instansConfig.timeout;
     }
+
+    //handle onload
+    xhr.onload = function onloadFns() {
+      renderSuccessFns(xhr, instansConfig);
+    };
+
+    //handle onprogress
+    xhr.onprogress = function onprogressFns(event) {
+      instansConfig.onprogress(event);
+    };
 
     //Listen for ready state
     xhr.onreadystatechange = function onreadystatechangeFns() {
