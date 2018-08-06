@@ -629,6 +629,21 @@
   }
 
   /**
+   * header fns
+   *
+   * @export
+   * @param {any} xhr
+   * @param {any} headerJson
+   */
+  function renderHeadersFns(xhr, headerJson) {
+    for (var variable in headerJson) {
+      if (headerJson.hasOwnProperty(variable)) {
+        xhr.setRequestHeader(variable, headerJson[variable]);
+      }
+    }
+  }
+
+  /**
    * request
    * 1. create http
    * 2. open http
@@ -669,7 +684,7 @@
     };
 
     //set header
-    xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
+    renderHeadersFns(xhr, instansConfig.headers);
 
     //send data
     xhr.send(renderSendFns(instansConfig));

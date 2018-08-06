@@ -3,6 +3,7 @@ import renderXhr from './xhr';
 import renderSendFns from './send';
 import renderSuccessFns from './success';
 import renderErrorFns from './error';
+import renderHeadersFns from './headers';
 /**
  * request
  * 1. create http
@@ -44,7 +45,7 @@ export default function createHttpRequest(instansConfig) {
   };
 
   //set header
-  xhr.setRequestHeader(Object.keys(instansConfig.headers).join(''), Object.values(instansConfig.headers).join(''));
+  renderHeadersFns(xhr, instansConfig.headers);
 
   //send data
   xhr.send(renderSendFns(instansConfig));
