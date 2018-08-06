@@ -32,7 +32,7 @@ export function isNullOrUndefined(value) {
  */
 export function forEach(obj, fn) {
   // Don't bother if no value provided
-  if (obj === null || typeof obj === 'undefined') {
+  if (isNullOrUndefined(obj)) {
     return;
   }
 
