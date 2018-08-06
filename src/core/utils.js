@@ -1,5 +1,5 @@
 /**
- * 是否是数组
+ * Is it an array
  *
  * @export
  * @param {any} val
@@ -57,7 +57,7 @@ export function forEach(obj, fn) {
   }
 }
 /**
- * 合并对象
+ * merge object
  *
  * @export
  * @returns

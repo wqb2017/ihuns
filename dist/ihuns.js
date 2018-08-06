@@ -6,7 +6,7 @@
 }(this, (function () { 'use strict';
 
   /**
-   * 是否是数组
+   * Is it an array
    *
    * @export
    * @param {any} val
@@ -64,7 +64,7 @@
     }
   }
   /**
-   * 合并对象
+   * merge object
    *
    * @export
    * @returns
