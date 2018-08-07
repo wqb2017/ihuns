@@ -11,8 +11,9 @@ export default {
   withCredentials: false, //Add withCredentials to request if needed
   success: function() {}, //Handle success
   error: function() {}, //Handle error
-  ontimeout:function () {},//Handle timeout
-  onprogress:function () {},//Handle onprogress
+  ontimeout: function() {}, //Handle timeout
+  onprogress: function() {}, //Handle onprogress
   requestKey: '',
-  isFormData: false //file unload
+  isFormData: false, //file unload
+  isDownClient: false //file downClient
 };

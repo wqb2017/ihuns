@@ -144,10 +144,11 @@
     withCredentials: false, //Add withCredentials to request if needed
     success: function() {}, //Handle success
     error: function() {}, //Handle error
-    ontimeout:function () {},//Handle timeout
-    onprogress:function () {},//Handle onprogress
+    ontimeout: function() {}, //Handle timeout
+    onprogress: function() {}, //Handle onprogress
     requestKey: '',
-    isFormData: false //file unload
+    isFormData: false, //file unload
+    isDownClient: false //file downClient
   };
 
   /**
@@ -678,7 +679,7 @@
     }
 
     //handle onprogress
-    xhr.upload.onprogress = function onprogressFns(event) {
+    xhr.onprogress = function onprogressFns(event) {
       instansConfig.onprogress(event);
     };
 
@@ -708,19 +709,38 @@
   }
 
   /**
+   * file downClient
+   *
+   * @export
+   * @param {any} instansConfig
+   */
+  function downClientFile(instansConfig) {
+    const baseURL = buildURL(instansConfig);
+    const sendData = renderSendFns(instansConfig);
+    window.open(`${baseURL}${sendData}`);
+  }
+
+  /**
    * instanceRequestMixin fn
    *
    * @export
    * @param {any} ihuns
    */
   function instanceRequestMixin(ihuns) {
-    ihuns.prototype.instanceRequest = function instanceRequest(params) {
+    ihuns.prototype.instanceRequest = function instanceRequest() {
+      //formdata
       if (this.$options.isFormData) {
         this.$options.method = 'post';
         this.$options.headers = {
           'Content-type': 'multipart/form-data'
         };
       }
+      //file downClient
+      if (this.$options.isDownClient) {
+        downClientFile(this.$options);
+        return;
+      }
+      //data request
       createHttpRequest(this.$options);
     };
   }

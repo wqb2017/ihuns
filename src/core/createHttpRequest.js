@@ -30,7 +30,7 @@ export default function createHttpRequest(instansConfig) {
   }
 
   //handle onprogress
-  xhr.upload.onprogress = function onprogressFns(event) {
+  xhr.onprogress = function onprogressFns(event) {
     instansConfig.onprogress(event);
   };
 

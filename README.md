@@ -71,31 +71,32 @@ createIhuns('/partner/data', {
 ## Config
 
 ```js
-  url: '', //request server url
-  method: 'get', //request method
-  baseURL: '', //server path
-  headers: {
-    'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
-  }, //set headers
-  data: {}, //request params
-  timeout: null, //set timeout
-  async: true, //async
-  withCredentials: false, //Add withCredentials to request if needed
-  success: function() {}, //success fn
-  error: function() {}, //error fn
-  ontimeout: function() {}, //Handle timeout
-  isFormData: false //file unload
+url: '', //request server url
+method: 'get', //request method
+baseURL: '', //server path
+headers: {
+  'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
+}, //set headers
+data: {}, //request params
+timeout: null, //set timeout
+async: true, //async
+withCredentials: false, //Add withCredentials to request if needed
+success: function() {}, //success fn
+error: function() {}, //error fn
+ontimeout: function() {}, //Handle timeout
+isFormData: false, //file unload
+isDownClient: false //file downClient
 ```
 
 ## response
 ```js
 //success
-  let res = {
-    response: {},//res
-    status: 200,//status
-    readyState: 4,//readyState
-    config: {},//request config
-  }
+let res = {
+  response: {},//res
+  status: 200,//status
+  readyState: 4,//readyState
+  config: {},//request config
+}
 //error
 let err = (msg,xhr,config)
 ```

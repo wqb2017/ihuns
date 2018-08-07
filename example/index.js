@@ -6,31 +6,28 @@
  * @returns
  */
 function createIhuns(url = '', data = {}, config = {}) {
-  const dataJson = Object.assign(
-    {},
-    data
-  );
-  const ihunsJson = Object.assign({},config,{url:url,data:Object.assign({},dataJson,data)})
+  const ihunsJson = Object.assign({}, config, { url: url, data: data });
   return new Promise(function(resolve, reject) {
     new Ihuns({
       url: ihunsJson.url, //请求服务器url
       baseURL: ihunsJson.baseURL || 'http://192.168.9.86:8006', //服务器路径
       data: ihunsJson.data,
       isFormData: ihunsJson.isFormData || false,
+      isDownClient: ihunsJson.isDownClient || false,
       method: ihunsJson.methos || 'get',
       withCredentials: ihunsJson.withCredentials || false,
       // timeout:5000,
       success: function success(res) {
         resolve(res);
       },
-      error: function error(msg,xhr,config) {
-        reject(msg,xhr,config);
+      error: function error(msg, xhr, config) {
+        reject(msg, xhr, config);
       },
-      onprogress:function onprogress(event) {
+      onprogress: function onprogress(event) {
         // console.log(event);
       },
-      ontimeout:function ontimeout(msg,xhr,config){
-        reject(msg,xhr,config);
+      ontimeout: function ontimeout(msg, xhr, config) {
+        reject(msg, xhr, config);
       }
     });
   });
@@ -42,7 +39,7 @@ function createIhuns(url = '', data = {}, config = {}) {
  */
 function getMaInfoList() {
   createIhuns(
-    '/partner/data',
+    '/partner/downClient',
     {
       module: 'portal',
       service: 'Portal',
@@ -63,23 +60,20 @@ function getMaInfoList() {
  * @param {any} params
  */
 function getConsumeBillList() {
-  createIhuns(
-    '/partner/data',
-    {
-      module: 'portal',
-      service: 'Portal',
-      method: 'access',
-      channel_id: '',
-      start_date: '',
-      end_date: '',
-      status: '',
-      action: 'finance.Bill.getConsumeBillList'
-    }
-  ).then(res => {
+  createIhuns('/partner/data', {
+    module: 'portal',
+    service: 'Portal',
+    method: 'access',
+    channel_id: '',
+    start_date: '',
+    end_date: '',
+    status: '',
+    action: 'finance.Bill.getConsumeBillList'
+  }).then(res => {
     console.log(res);
   });
 }
-getConsumeBillList();
+// getConsumeBillList();
 //文件上传
 function uploadFormData(params) {
   createIhuns('/common/uploadFormData', params, {
@@ -87,11 +81,13 @@ function uploadFormData(params) {
     baseURL: 'http://120.78.128.52:82/cleaning',
     isFormData: true,
     withCredentials: true
-  }).then(res => {
-    console.log(res);
-  }).catch(err=>{
-    console.log(err);
   })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 }
 document.getElementById('file').addEventListener('change', function clickFns(e) {
   let files = e.target.files[0];
@@ -99,4 +95,26 @@ document.getElementById('file').addEventListener('change', function clickFns(e) 
   uploadFormData({
     file: files
   });
+});
+
+function exportConsumeBillDtlList() {
+  createIhuns(
+    '/open/downClient',
+    {
+      module: 'export',
+      service: 'Export',
+      method: 'exportConsumeBillDtlList',
+      ve: 2,
+      clientType: 'html',
+      ms: new Date().getTime(),
+      id: '20180807010000943181138371718101',
+      bill_date: '2018-08-06',
+    },
+    { isDownClient: true, methos: 'post', }
+  ).then(res => {
+    console.log(res);
+  });
+}
+document.getElementById('exportFile').addEventListener('click', function exportFile(params) {
+  exportConsumeBillDtlList();
 });
