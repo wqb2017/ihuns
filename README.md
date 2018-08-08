@@ -129,9 +129,9 @@ isDownClient: false //file downClient
 ```js
 //success
 let res = {
-  response: {},//res
-  status: 200,//status
-  readyState: 4,//readyState
+  response: {},//xhr.responseText
+  status: 200,//xhr.status
+  readyState: 4,//xhr.readyState
   config: {},//request config
 }
 //error
