@@ -1,5 +1,6 @@
 import transformResponse from './transformResponse';
 import renderErrorFns from './error';
+import * as Utils from './utils';
 /**
  * success fns
  *
@@ -14,7 +15,9 @@ export default function renderSuccessFns(xhr, instansConfig) {
         instansConfig.success(transformResponse(xhr, instansConfig));
       } else {
         if (!instansConfig.timeout) {
-          renderErrorFns(`request was unsuccessful,status is ${xhr.status}`, xhr, instansConfig);
+          const msg = `request was unsuccessful,status is ${xhr.status}`;
+          Utils.logError(msg);
+          renderErrorFns(msg, xhr, instansConfig);
         }
       }
     } catch (error) {

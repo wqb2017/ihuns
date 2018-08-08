@@ -13,7 +13,7 @@
    * @returns
    */
   function isArray(val) {
-    return toString.call(val) === '[object Array]';
+    return {}.toString.call(val) === '[object Array]';
   }
   /**
    * Don't bother if no value provided
@@ -593,7 +593,7 @@
    */
   function transformResponse(responseData, instansConfig) {
     return {
-      response: JSON.parse(responseData.response || responseData.responseText),
+      response: responseData ? JSON.parse(responseData.response || responseData.responseText) : {},
       status: responseData.status,
       readyState: responseData.readyState,
       config: instansConfig
@@ -629,7 +629,9 @@
           instansConfig.success(transformResponse(xhr, instansConfig));
         } else {
           if (!instansConfig.timeout) {
-            renderErrorFns(`request was unsuccessful,status is ${xhr.status}`, xhr, instansConfig);
+            const msg = `request was unsuccessful,status is ${xhr.status}`;
+            logError(msg);
+            renderErrorFns(msg, xhr, instansConfig);
           }
         }
       } catch (error) {

@@ -39,7 +39,7 @@ function createIhuns(url = '', data = {}, config = {}) {
  */
 function getMaInfoList() {
   createIhuns(
-    '/partner/downClient',
+    '/partner/data',
     {
       module: 'portal',
       service: 'Portal',
@@ -51,7 +51,9 @@ function getMaInfoList() {
     { methos: 'post' }
   ).then(res => {
     document.getElementById('data').innerHTML = JSON.stringify(res);
-  });
+  }).catch(err=>{
+    console.log(err);
+  })
 }
 getMaInfoList();
 /**

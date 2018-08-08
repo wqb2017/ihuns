@@ -135,7 +135,7 @@ isDownClient: false //file downClient
  * @param {number} readyState xhr.readyState
  * @param {object} config request config
  */
-let res = { response, status, readyState, config,}
+let res = { response, status, readyState, config }
 /**
  * error
  *
