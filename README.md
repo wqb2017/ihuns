@@ -127,15 +127,23 @@ isDownClient: false //file downClient
 
 ## response
 ```js
-//success
-let res = {
-  response: {},//xhr.responseText
-  status: 200,//xhr.status
-  readyState: 4,//xhr.readyState
-  config: {},//request config
-}
-//error
-let err = (msg,xhr,config)
+/**
+ * success
+ *
+ * @param {string} response xhr.responseText
+ * @param {number} status xhr.status
+ * @param {number} readyState xhr.readyState
+ * @param {object} config request config
+ */
+let res = { response, status, readyState, config,}
+/**
+ * error
+ *
+ * @param {string} msg error explain
+ * @param {object} xhr request xhr
+ * @param {object} config request config
+ */
+let err = (msg, xhr, config)
 ```
 
 ## format
