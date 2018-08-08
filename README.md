@@ -24,6 +24,7 @@ import ihuns from 'sendjs';
 ## Example
 
 ```js
+//data request
 new Ihuns({
   url: '/api',
   baseURL: 'http://192.168.9.86:8006',
@@ -36,6 +37,40 @@ new Ihuns({
   }
 });
 ```
+
+```js
+//file request
+new Ihuns({
+  url: '/api',
+  baseURL: 'http://192.168.9.86:8006',
+  data: {},
+  isFormData:true,
+  success: function success(res) {
+    resolve(res);
+  },
+  error: function error(err) {
+    reject(err);
+  }
+});
+```
+
+```js
+//file downClient
+new Ihuns({
+  url: '/api',
+  baseURL: 'http://192.168.9.86:8006',
+  data: {},
+  isDownClient:true,
+  success: function success(res) {
+    resolve(res);
+  },
+  error: function error(err) {
+    reject(err);
+  }
+});
+```
+
+[Example](https://github.com/wqb2017/ihuns/blob/master/example/index.js)
 
 ## use promise
 ```js
@@ -101,6 +136,14 @@ let res = {
 let err = (msg,xhr,config)
 ```
 
+## format
+
+* umd
+* cjs
+* iife
+
 ## License
 
-MIT
+[MIT](https://opensource.org/licenses/MIT)
+
+Copyright (c) 2018-present, wangqibiao
