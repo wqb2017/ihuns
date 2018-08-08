@@ -33,7 +33,7 @@ function createIhuns(url = '', data = {}, config = {}) {
   });
 }
 /**
- * getMaInfoList
+ * data request
  *
  * @param {any} params
  */
@@ -53,9 +53,9 @@ function getMaInfoList() {
     document.getElementById('data').innerHTML = JSON.stringify(res);
   });
 }
-// getMaInfoList();
+getMaInfoList();
 /**
- * getConsumeBillList
+ * data request
  *
  * @param {any} params
  */
@@ -73,8 +73,12 @@ function getConsumeBillList() {
     console.log(res);
   });
 }
-// getConsumeBillList();
-//文件上传
+getConsumeBillList();
+/**
+ *file upload
+ *
+ * @param {any} params
+ */
 function uploadFormData(params) {
   createIhuns('/common/uploadFormData', params, {
     methos: 'post',
@@ -96,7 +100,10 @@ document.getElementById('file').addEventListener('change', function clickFns(e) 
     file: files
   });
 });
-
+/**
+ * file downClient
+ *
+ */
 function exportConsumeBillDtlList() {
   createIhuns(
     '/open/downClient',

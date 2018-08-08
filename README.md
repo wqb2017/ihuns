@@ -54,6 +54,8 @@ new Ihuns({
 });
 ```
 
+![](./example/images/upload.gif)
+
 ```js
 //file downClient
 new Ihuns({
