@@ -6,7 +6,7 @@
  * @returns
  */
 export function isArray(val) {
-  return toString.call(val) === '[object Array]';
+  return {}.toString.call(val) === '[object Array]';
 }
 /**
  * Don't bother if no value provided
