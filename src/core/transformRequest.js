@@ -1,6 +1,6 @@
 import sign from './sign';
 import md5 from 'md5';
-import * as Utils from './utils';
+import * as Utils from './../shared/utils';
 /**
  * request data format
  *

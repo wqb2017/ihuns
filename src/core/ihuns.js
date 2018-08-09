@@ -1,5 +1,5 @@
-import * as Utils from './utils';
-import defaultConfig from './config';
+import * as Utils from './../shared/utils';
+import defaultConfig from './../shared/config';
 import instanceRequestMixin from './instanceRequest';
 let id = 0;
 /**

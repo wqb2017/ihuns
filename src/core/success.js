@@ -1,6 +1,6 @@
 import transformResponse from './transformResponse';
 import renderErrorFns from './error';
-import * as Utils from './utils';
+import * as Utils from './../shared/utils';
 /**
  * success fns
  *
